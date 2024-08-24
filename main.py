@@ -3,7 +3,9 @@
 # throughout this file
 import pygame
 from constants import * 
-from player import *
+from player import Player
+from asteroid import Asteroid
+from asteroidfield import AsteroidField
 
 def main():
     print("Starting asteroids!")
@@ -15,14 +17,23 @@ def main():
     # print(f"{numpass} pygame modules initialized successfully")
     # print(f"{numfail} pygame modules failed to initialize")
     clock = pygame.time.Clock()
+    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     dt = 0
 
+    asteroid_field = AsteroidField()
+
+
+    updateable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+    asteroids = pygame.sprite.Group()
+
+    Asteroid.containers = (asteroids, updateable, drawable)
+    AsteroidField.containers = (updateable,)
+    asteroid_field = AsteroidField()
+
+    Player.containers = (updateable, drawable)
     player = Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
 
-    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-
-    updateable = pygame.sprite.Group(player)
-    drawable = pygame.sprite.Group(player)
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
