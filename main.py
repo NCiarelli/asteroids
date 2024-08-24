@@ -12,21 +12,26 @@ def main():
     
     # pygame initilization
     (numpass, numfail) = pygame.init()
-    print(f"{numpass} pygame modules initialized successfully")
-    print(f"{numfail} pygame modules failed to initialize")
+    # print(f"{numpass} pygame modules initialized successfully")
+    # print(f"{numfail} pygame modules failed to initialize")
     clock = pygame.time.Clock()
     dt = 0
 
     player = Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
 
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+
+    updateable = pygame.sprite.Group(player)
+    drawable = pygame.sprite.Group(player)
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
-        player.update(dt)
         screen.fill(SCREEN_COLOR)
-        player.draw(screen)
+        for obj in updateable:
+            obj.update(dt)
+        for obj in drawable:
+            obj.draw(screen)
         
         pygame.display.flip()
         dt = clock.tick(60)/1000
