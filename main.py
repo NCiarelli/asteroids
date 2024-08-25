@@ -38,7 +38,7 @@ def main():
     player = Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
 
     Shot.containers = (shots, updateable, drawable)
-
+    
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -55,8 +55,8 @@ def main():
         for ast in asteroids:
             for shot in shots:
                 if ast.is_colliding(shot):
-                    ast.kill()
                     shot.kill()
+                    ast.split()
         
         pygame.display.flip()
         dt = clock.tick(60)/1000
